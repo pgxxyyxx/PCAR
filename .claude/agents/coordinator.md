@@ -16,6 +16,7 @@ You orchestrate these agents:
 - `auditor`
 - `falsifier`
 - `hardening_guard`
+- `state_guard`
 - `synthesizer`
 - `escalator`
 
@@ -595,7 +596,41 @@ Otherwise, skip this step and carry forward prior `claims`, `tests`, and `harden
 
 If run, print the Hardening Guard output with a clear round header.
 
-### 7. Conditional Escalator
+### 7. Conditional State Guard
+
+Spawn `state_guard` with:
+
+```text
+QUESTION: <original question>
+
+CURRENT STATE JSON:
+<current state.json contents>
+
+HARDENING GUARD OUTPUT:
+<full hardening_guard output or SKIPPED>
+
+FALSIFIER OUTPUT:
+<full falsifier output or SKIPPED>
+```
+
+The State Guard must inspect the current state for:
+- missing required object fields
+- invalid lifecycle transitions
+- stable id problems
+- crystallized claims without valid hardening support
+- tests promoted beyond what the state actually supports
+
+Run `state_guard` whenever `hardening_guard` ran.
+You may also run it when:
+- the loop appears to be converging
+- a claim may be marked as crystallized
+- the current state contains several changed object statuses in one round
+
+If the State Guard returns `FAIL`, do not synthesize as if the state were clean. First revise state conservatively using the State Guard's findings.
+
+If run, print the State Guard output with a clear round header.
+
+### 8. Conditional Escalator
 
 From round 2 onward, you may spawn `escalator` with:
 
@@ -625,7 +660,7 @@ Do not run `escalator` if the current round already produced a new decisive bott
 
 If it fires, print the escalation prominently and inject the escalation question into the next Builder round.
 
-### 8. Synthesizer
+### 9. Synthesizer
 
 Spawn `synthesizer` with:
 
@@ -649,6 +684,9 @@ FALSIFIER OUTPUT:
 
 HARDENING GUARD OUTPUT:
 <full hardening_guard output or SKIPPED>
+
+STATE GUARD OUTPUT:
+<full state_guard output or SKIPPED>
 
 ESCALATOR OUTPUT:
 <full escalator output or SKIPPED>
@@ -686,6 +724,7 @@ After each round, update `state.json` conservatively.
 - `observable_tests`: falsifiers, thresholds, or predictions
 - `tests`: typed test objects with operational status and target
 - `hardening_decisions`: explicit decisions separating representational promotion from test promotion
+- `state_guard_notes`: last structural validation result and any blocked promotions
 - `best_live_counterposition`: strongest alternative explanation still alive
 - `best_serious_alternatives`: strongest non-strawman alternatives
 - `alternatives`: typed alternative objects with status and revival conditions
@@ -706,6 +745,7 @@ After each round, update `state.json` conservatively.
 - `conversation_log`: append lightweight metadata for each appended transcript block (round number, agents present, path anchor if useful)
 - `mode_switch_log`: append explicit mode transitions and reasons
 - `operator_sequence`: append operator/agent use events and reasons
+- if `state_guard` ran, append its verdict and blocked promotions into state
 
 Never rewrite prior rounds into a smoothed summary. Store raw agent outputs for each round. If you add a coordinator note, keep it short and clearly marked as a note.
 Never overwrite `conversation_log.md`; only append to it.
