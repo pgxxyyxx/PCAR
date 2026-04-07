@@ -42,7 +42,7 @@ If you clone this repo, you are getting a reusable reasoning scaffold, not a pac
 
 - [`.claude/commands/`](./.claude/commands): user-facing Claude Code commands
 - [`.claude/agents/`](./.claude/agents): agent prompts used by the command system
-- [`papers/progressive_crystallization_v3.md`](./papers/progressive_crystallization_v3.md): current working paper
+- [`papers/progressive_crystallization.md`](./papers/progressive_crystallization.md): current working paper
 - [`schemas/epistemic_state_schema.json`](./schemas/epistemic_state_schema.json): minimal transitional object model and lifecycle reference
 - [`examples/adaptive_hardening_walkthrough.md`](./examples/adaptive_hardening_walkthrough.md): plain-language worked example of the hardening lifecycle
 - [`examples/adaptive_hardening_snapshots.json`](./examples/adaptive_hardening_snapshots.json): static reference snapshots for that example
@@ -96,7 +96,7 @@ For a small documented example of the current hardening model, see:
 
 ## Working Paper
 
-The current paper draft is [`papers/progressive_crystallization_v3.md`](./papers/progressive_crystallization_v3.md).
+The current paper draft is [`papers/progressive_crystallization.md`](./papers/progressive_crystallization.md).
 
 It argues that epistemic state transition, not the conversational turn, is the right unit of AI reasoning, and that the main open design question is when loose tensions should harden into structured claims.
 
