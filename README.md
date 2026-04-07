@@ -1,128 +1,155 @@
 # Progressive Crystallization
 
-Claude Code prompt system for state-first reasoning on questions where premature closure is expensive.
+> The first plausible answer to a hard question is almost never the right one. It is usually operating at the wrong level, holding the wrong variable fixed, treating dependent evidence as independent, or smoothing over a tension that should have remained live.
 
-## The Problem
+Most AI reasoning does not fail by producing nonsense. It fails by producing something clear, plausible, internally consistent, and prematurely complete. For hard questions, that is often the most expensive failure mode.
 
-Most AI reasoning fails in a way that is easy to miss. It does not usually fail by producing nonsense. It fails by producing something clear, plausible, internally consistent, and prematurely complete.
+**Progressive Crystallization is a state-first reasoning scaffold for Claude Code.** It turns Claude Code into something closer to an adversarial research team: a builder who steelmans the strongest position, a destructor who attacks the weakest assumption, an auditor who checks both sides for circular reasoning, a falsifier who demands testable predictions, an escalator who refuses to let the analysis settle at the wrong level, and a synthesizer who preserves what survives without smoothing away the tensions.
 
-That is a serious failure mode for hard questions: scientific disputes, strategy, architecture, diligence, policy tradeoffs, historical reconstruction, and other problems where multiple coherent stories can exist at the same time. In those settings, the first answer that sounds organized is often not the answer you actually want. It may be operating at the wrong level, holding the wrong variable fixed, treating dependent evidence as independent, or smoothing over a tension that should have remained live.
+Six commands. Ten agents. All slash commands, all Markdown, all MIT licensed.
 
-Standard multi-agent setups help, but they often still reason through conversation. One agent says something, another responds, a third summarizes, and the transcript grows. What gets lost is the actual reasoning state: which assumption was attacked, which contradiction survived, which evidence lines turned out to share a hidden dependency, what would change the result, and what still has not earned closure.
+**What this is for:**
+- **Researchers and analysts** who need to know what actually survives scrutiny, not just what sounds right
+- **Technical founders** making high-stakes decisions where the first coherent answer is systematically wrong
+- **Anyone working on questions** where multiple coherent positions can coexist and premature closure is expensive
 
-Progressive Crystallization is an attempt to address that problem.
+## Quick start
 
-## What Progressive Crystallization Is
+1. Clone this repo and open it in Claude Code
+2. Run `/scrutinize Is the Hubble tension more likely new physics or unresolved systematics?` on any hard question
+3. Run `/crystallize` to let the system choose its own mode sequence
 
-Progressive Crystallization, or PC, treats reasoning as an evolving epistemic state rather than a sequence of isolated turns.
+## Install
 
-The central idea is simple:
+```bash
+git clone https://github.com/pgxxyyxx/PCAR.git
+cd PCAR
+```
 
-- the transcript is a log
-- the state is the reasoning
+Open the directory in Claude Code. The commands and agents load automatically. No build step, no dependencies, no setup script.
+This repository is not a standalone application or CLI. It is a Claude Code prompt scaffold: the commands and agents become available inside Claude Code when the repository is opened there.
 
-Instead of relying on the model to repeatedly reconstruct its own reasoning from prose, the system tries to preserve explicit objects across rounds: tensions, alternatives, assumptions, dependency structure, tests, residuals, and update rules. Different operations then apply different kinds of pressure to that state.
+## See it work
 
-The name comes from the intended process. The system does not begin by forcing clean, rigid claims. It begins with looser objects: half-formed alternatives, objections, hidden assumptions, suspected circularities, frame errors, and unresolved tensions. Those objects are preserved and pressed on. Only the parts that survive that pressure, or become experimentally differentiable, are allowed to harden into more structured artifacts. That hardening process is the crystallization.
+```
+You:    /scrutinize Is the Hubble tension more likely to reflect
+        new physics or unresolved systematics?
 
-## What This Repo Is
+Claude: [ESCALATOR] Reframing the question. "New physics or
+        systematics" compresses several separable issues into one
+        binary. Better question: which measurements disagree, which
+        assumptions are shared across them, and what observations
+        would update the balance between cosmological and
+        instrument/model explanations?
 
-This repo is not a standalone application. It is a Claude Code prompt-and-agent scaffold for running that style of reasoning.
+        [BUILDER] Steelmanning the new-physics case from first
+        principles. If late- and early-universe inferences disagree
+        after calibration and model assumptions are audited, the
+        residual may point to missing structure in the cosmological
+        model.
 
-It gives you:
+        [DESTRUCTOR] The disagreement is not yet clean evidence for
+        new physics. Distance ladders, calibration chains, selection
+        effects, and model priors create multiple routes for shared
+        systematics to survive as apparent tension.
 
-- user-facing Claude Code commands for different reasoning modes
-- agent prompts for the underlying roles in the loop
-- a working paper describing the conceptual argument behind the system
-- a generated `sessions/` directory where structured state and transcripts are written during use
+        [AUDITOR] Several evidence lines are less independent than
+        they appear. Distance-ladder steps share calibration logic,
+        and cosmological inferences share model assumptions.
 
-If you clone this repo, you are getting a reusable reasoning scaffold, not a packaged product.
+        [FALSIFIER] The decisive question is not whether the tension
+        exists rhetorically but whether independent measurement routes
+        converge once calibration dependencies are relaxed. New data
+        from independent probes should update the two explanations
+        differently.
 
-## What This Repo Contains
+        [SYNTHESIZER]
+        What survives: there is a real measurement disagreement, but
+        its interpretation depends on the independence of the probes.
+        Decisive bottleneck: unresolved dependence between calibration
+        chains and model assumptions.
+        Discriminating test: an observational route with materially
+        different systematics that lands consistently with one side.
+        Update rule: if independent probes converge on the same offset,
+        the case for new physics strengthens; if the offset collapses
+        under revised calibration, the systematic explanation gains
+        weight.
 
-- [`.claude/commands/`](./.claude/commands): user-facing Claude Code commands
-- [`.claude/agents/`](./.claude/agents): agent prompts used by the command system
-- [`papers/progressive_crystallization.md`](./papers/progressive_crystallization.md): current working paper
-- [`schemas/epistemic_state_schema.json`](./schemas/epistemic_state_schema.json): minimal transitional object model and lifecycle reference
-- [`examples/adaptive_hardening_walkthrough.md`](./examples/adaptive_hardening_walkthrough.md): plain-language worked example of the hardening lifecycle
-- [`examples/adaptive_hardening_snapshots.json`](./examples/adaptive_hardening_snapshots.json): static reference snapshots for that example
-- [`sessions/`](./sessions): generated runtime output; ignored for Git except for a placeholder
+        State written to sessions/scrutinize_hubble_tension.md
+```
 
-The system treats reasoning as an evolving epistemic state rather than a sequence of isolated turns. The goal is to preserve tensions, assumptions, dependency structure, tests, and residuals across rounds instead of reconstructing them from transcript prose every time.
+The system did not summarize two sides and declare a middle ground. It separated measurement disagreement from interpretation, audited hidden dependencies, identified the binding uncertainty, and specified exactly what evidence would change the verdict. The intended output is structured adversarial reasoning with explicit state, not a conversational compromise.
 
-## How It Works
+## The loop
 
-The commands in this repo correspond to different kinds of pressure you might want to apply to a hard question.
+Progressive Crystallization is a process, not a collection of prompts. Each command applies a different kind of pressure, and the system maintains structured epistemic state across rounds: tensions, claims, alternatives, tests, assumptions, and dependency links, each with lifecycle status and attack history.
 
-- [`/scrutinize`](./.claude/commands/scrutinize.md) is for breaking the current story: attack the strongest hypotheses, inspect evidence quality, and find the weak points.
-- [`/reframe`](./.claude/commands/reframe.md) is for diagnosing whether the question itself is malformed, shallow, or hiding the real variable.
-- [`/explore`](./.claude/commands/explore.md) is for opening serious alternative space before collapsing to a verdict.
-- [`/crystallize`](./.claude/commands/crystallize.md) is the orchestrator that decides when to scrutinize, reframe, or explore.
-- [`/escalate`](./.claude/commands/escalate.md) is a frame-breaker that forces the next first-principles question when the reasoning is converging too smoothly.
-- [`/extract`](./.claude/commands/extract.md) is for turning an uploaded paper into analyst-grade structured takeaways for downstream scrutiny or exploration.
+The core idea: **the transcript is archival context; the state is the primary object of control.**
 
-Underneath those commands is a state-first architecture. The next round is supposed to begin from the current epistemic map, not from “what was just said.” That is the core design choice.
+| Command | What it does |
+|---------|-------------|
+| `/extract` | Paper ingestion. Converts an uploaded paper into analyst-grade structured takeaways: what was measured, what was claimed, where the gap is. Feeds into downstream scrutiny or exploration. |
+| `/scrutinize` | Attack the leading hypotheses. Find where evidence is circular, overclaimed, or not independent. Preserve only what survives the strongest available attacks. |
+| `/reframe` | Diagnose whether the question itself is malformed. Surface hidden dimensions, wrong abstraction levels, or compressed sub-questions. Output is a better question, not an answer. |
+| `/explore` | Map the space of serious live alternatives. Clarify what would have to be true for each to survive. Rank the measurements that would most efficiently move the epistemic state. |
+| `/escalate` | Frame-breaker. Forces the next first-principles question when the analysis is converging too smoothly at the wrong level. |
+| `/crystallize` | The orchestrator. Decides when to scrutinize, reframe, or explore. The productive default for research-forward tasks: scrutinize first (clear fake certainty), then reframe (replace the question), then explore (map the possibility space). |
 
-The current implementation now also includes prompt-native guards around hardening and state integrity. Those checks still live inside Claude Code rather than an external runtime, but they make the lifecycle rules more explicit than a plain multi-agent conversation loop.
+## What makes this different
 
-## Commands
+**State, not conversation.** Each round begins from a structured epistemic map, not from the last message. Claims carry attack histories. Evidence lines are checked for shared assumptions. Tensions are preserved as first-class objects that must be resolved or declared irreducible. Nothing quietly disappears between rounds.
 
-- [`/scrutinize`](./.claude/commands/scrutinize.md): attack the leading hypotheses, evidence lines, and assumptions
-- [`/reframe`](./.claude/commands/reframe.md): diagnose and replace a malformed or shallow question
-- [`/explore`](./.claude/commands/explore.md): map live model space and produce a research agenda
-- [`/crystallize`](./.claude/commands/crystallize.md): orchestrate the full loop across modes
-- [`/escalate`](./.claude/commands/escalate.md): force the next frame-breaking first-principles question
-- [`/extract`](./.claude/commands/extract.md): ingest a paper into analyst-grade structured takeaways
+**Two-level hardening.** Objects earn structure through two independent gates. Representational hardening promotes a tension into a typed object when it has stable identity, competing positions, and dependency relevance. Operational hardening attaches tests only when discriminative procedures exist. A tension can be structurally important long before it is testable. The system does not collapse those into one decision.
 
-## How To Use It
+**No appeals to authority.** Every agent operates under a strict constraint: no consensus, no authority, no "experts agree." First principles and primary evidence only. Published research is treated as evidence to be weighed, not as ground truth.
 
-1. Clone the repo.
-2. Open it in Claude Code.
-3. Ask Claude Code to run one of the commands above against your question or uploaded paper.
-4. Review generated output under [`sessions/`](./sessions).
+**Explicit update rules.** Every analysis specifies what evidence would change the verdict. Not "more research is needed" but "if X is observed above threshold Y, revise claim Z in direction W."
 
-The repo does not ship as a standalone application. It is a prompt-and-agent scaffold intended to be used from within Claude Code.
+## What is in this repo
 
-## Runtime Output
+```
+.claude/commands/     User-facing Claude Code slash commands
+.claude/agents/       Agent prompts (builder, destructor, auditor,
+                      falsifier, escalator, synthesizer, coordinator,
+                      alternative_builder, extractor, hardening_guard,
+                      state_guard)
+papers/               Working paper on the framework
+schemas/              Minimal object model and lifecycle reference
+examples/             Worked example of the hardening lifecycle
+sessions/             Generated runtime output (gitignored)
+```
 
-Runs write structured state and transcripts under [`sessions/`](./sessions). That directory is treated as generated output and is ignored by Git by default.
+## When to use this
 
-If you want to publish example runs, copy only curated outputs into a separate folder such as `examples/` rather than committing all local sessions.
+**Good fit:**
+- The first plausible answer is likely at the wrong level
+- Several coherent positions survive initial inspection
+- Evidence independence matters and you suspect false convergence
+- Premature closure is expensive
+- You need to know what survived, what failed, and what would change the result
 
-For a small documented example of the current hardening model, see:
+**Bad fit:**
+- Simple factual lookups
+- Speed matters more than depth
+- The bottleneck is missing information, not reasoning quality
 
-- [`examples/adaptive_hardening_walkthrough.md`](./examples/adaptive_hardening_walkthrough.md)
-- [`examples/adaptive_hardening_snapshots.json`](./examples/adaptive_hardening_snapshots.json)
+## Working paper
 
-## Working Paper
-
-The current paper draft is [`papers/progressive_crystallization.md`](./papers/progressive_crystallization.md).
-
-It argues that epistemic state transition, not the conversational turn, is the right unit of AI reasoning, and that the main open design question is when loose tensions should harden into structured claims.
-
-## What Good Use Looks Like
-
-This framework is most useful when:
-
-- the first plausible answer is likely to be at the wrong level
-- several coherent positions can survive initial inspection
-- evidence independence matters
-- premature closure is expensive
-- you care not just about the answer, but about what survived, what failed, and what would change the result
-
-It is much less useful for:
-
-- simple factual lookups
-- shallow questions
-- situations where speed matters more than depth
-- tasks where the bottleneck is missing information rather than reasoning quality
-
-## License
-
-This repo is released under the [MIT License](./LICENSE).
+The current paper is [`papers/progressive_crystallization.md`](./papers/progressive_crystallization.md). It argues that the right unit of AI reasoning is not the conversational turn but the epistemic state object, and that the genuinely novel question is when loose tensions should harden into structured claims. The paper is pre-empirical and specifies the result that would kill its own claim.
 
 ## Limits
 
-This framework can impose structure and pressure. It cannot create domain competence the underlying model does not have.
+This framework can impose structure and pressure. It cannot create domain competence the underlying model does not have. If the model cannot recognize circular evidence, distinguish genuine tests from fake ones, or separate real constraints from rhetoric, the system will produce well-structured wrong answers.
 
-If the model cannot recognize circular evidence, distinguish genuine tests from fake ones, or separate real constraints from rhetoric, the system can still produce well-structured wrong answers.
+## Docs
+
+| Doc | What it covers |
+|-----|---------------|
+| [Working Paper](papers/progressive_crystallization.md) | The conceptual argument: timing policy for formalization in LLM reasoning |
+| [Object Model](schemas/epistemic_state_schema.json) | Minimal schema: tension, claim, alternative, test lifecycles |
+| [Hardening Walkthrough](examples/adaptive_hardening_walkthrough.md) | Four-round worked example of the promotion ladder |
+| [Hardening Snapshots](examples/adaptive_hardening_snapshots.json) | Static state snapshots for the worked example |
+
+## License
+
+MIT. Free forever.
