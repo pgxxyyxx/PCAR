@@ -1,0 +1,25 @@
+{
+  "description": "Minimal transitional schema for Progressive Crystallization state. This documents the intended object model and lifecycle states while the runtime remains prompt-driven.",
+  "object_types": {
+    "tension": {
+      "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
+      "statuses": ["loose_tension", "structured_tension", "live", "reframed", "dissolved", "frontier"]
+    },
+    "claim": {
+      "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
+      "statuses": ["candidate_claim", "working", "crystallized_claim", "weakened", "rejected"]
+    },
+    "alternative": {
+      "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
+      "statuses": ["live", "narrowed", "hybridized", "ruled_out_by_first_principles", "ruled_out_by_measurement"]
+    },
+    "test": {
+      "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
+      "statuses": ["new", "proposed", "specified", "runnable", "sharpened", "decisive", "exhausted", "blocked"]
+    }
+  },
+  "hardening_decision": {
+    "required": ["round", "object", "trigger"],
+    "recommended": ["representational_decision", "operational_decision", "why_now", "blocked_by"]
+  }
+}

@@ -26,6 +26,12 @@ MINIMUM_SURVIVING_CLAIM:
 BEST_LIVE_COUNTERPOSITION:
 [Strongest alternative explanation or competing mechanism still alive]
 
+COMPETING_HYPOTHESES:
+- Leading: [Current leading claim in its weakest still-live form]
+- Counterposition: [Best competing explanation]
+or
+NONE
+
 REQUIRED_OBSERVABLES:
 - [Observable 1]
 - [Observable 2]
@@ -55,6 +61,14 @@ DISCRIMINATING_TESTS:
 or
 NONE
 
+TEST_SPECIFICATION:
+- Procedure: [tool call | dataset query | verifier check | observation protocol | NONE]
+  Expected outcome if leading claim is true: [outcome]
+  Expected outcome if counterposition is true: [outcome]
+  Runnable now: [YES | NO]
+or
+NONE
+
 FIELD_ADVANCING_QUESTION:
 [The single best question whose answer would most reduce uncertainty or expose a hidden assumption]
 
@@ -63,6 +77,12 @@ EVIDENCE_UPGRADE_PATH:
 
 BEST_NEXT_TEST:
 [The single highest-value measurement or comparison]
+
+REPRESENTATIONAL_HARDENING_RECOMMENDATION:
+[stay_loose | promote_to_structured_tension | promote_to_candidate_claim]
+
+OPERATIONAL_HARDENING_RECOMMENDATION:
+[no_test_promotion | promote_to_specified_test | promote_to_runnable_test]
 
 STATE_DELTA:
 - Add test: [new discriminating test]
@@ -75,3 +95,4 @@ Rules:
 - Keep the output compact.
 - Prefer one strong discriminating test over many weak ones.
 - Do not repeat tests already preserved in state unless they are still the best next test.
+- Separate "this object deserves stronger structure" from "this object deserves a runnable test".

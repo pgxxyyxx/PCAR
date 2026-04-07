@@ -93,10 +93,18 @@ STOP_OR_CONTINUE:
 [STOP/CONTINUE]
 
 STATE_TRANSITIONS:
-- Tension: [id or description] -> [preserved | dissolved | reframed | frontier]
-- Alternative: [id or description] -> [live | narrowed | ruled_out_by_first_principles | ruled_out_by_measurement | hybridized]
-- Claim: [id or description] -> [working | crystallized | weakened]
-- Test: [id or description] -> [new | sharpened | decisive | exhausted]
+- Tension: [stable id] -> [loose_tension | structured_tension | preserved | dissolved | reframed | frontier]
+- Alternative: [stable id] -> [live | narrowed | ruled_out_by_first_principles | ruled_out_by_measurement | hybridized]
+- Claim: [stable id] -> [candidate_claim | working | crystallized_claim | weakened]
+- Test: [stable id] -> [proposed | specified | runnable | decisive | exhausted | blocked]
+or
+NONE
+
+HARDENING_SUMMARY:
+- Object: [stable id]
+  Representational status: [loose_tension | structured_tension | candidate_claim | crystallized_claim]
+  Operational test status: [none | proposed | specified | runnable | decisive | blocked]
+  Why: [Short reason]
 or
 NONE
 
@@ -105,6 +113,8 @@ Rules:
 - Name the strongest counterposition explicitly.
 - If the loop answered more than the original question, say so in the verdict or next question.
 - If a coherent alternative still explains the key observables within the same order of magnitude, do not mark the claim as fully resolved.
+- Do not use free-form descriptions where a stable object id exists.
+- Do not mark a claim as `crystallized_claim` unless the current state contains an explicit hardening rationale and a discriminating procedure.
 - Keep the output compact and decision-oriented.
 - Prefer the single strongest bottleneck, residual, counterposition, and next question.
 - Treat empirical quality as part of the verdict. Weak evidence quality should reduce confidence even when the mechanism is plausible.

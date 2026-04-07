@@ -43,6 +43,8 @@ If you clone this repo, you are getting a reusable reasoning scaffold, not a pac
 - [`.claude/commands/`](./.claude/commands): user-facing Claude Code commands
 - [`.claude/agents/`](./.claude/agents): agent prompts used by the command system
 - [`papers/progressive_crystallization_v3.md`](./papers/progressive_crystallization_v3.md): current working paper
+- [`schemas/epistemic_state_schema.json`](./schemas/epistemic_state_schema.json): minimal transitional object model and lifecycle reference
+- [`scripts/validate_state.py`](./scripts/validate_state.py): validator for state files and lifecycle consistency
 - [`sessions/`](./sessions): generated runtime output; ignored for Git except for a placeholder
 
 The system treats reasoning as an evolving epistemic state rather than a sequence of isolated turns. The goal is to preserve tensions, assumptions, dependency structure, tests, and residuals across rounds instead of reconstructing them from transcript prose every time.
@@ -83,6 +85,12 @@ The repo does not ship as a standalone application. It is a prompt-and-agent sca
 Runs write structured state and transcripts under [`sessions/`](./sessions). That directory is treated as generated output and is ignored by Git by default.
 
 If you want to publish example runs, copy only curated outputs into a separate folder such as `examples/` rather than committing all local sessions.
+
+You can validate a state file with:
+
+```bash
+python3 scripts/validate_state.py sessions/state.json
+```
 
 ## Working Paper
 

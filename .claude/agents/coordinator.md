@@ -15,6 +15,7 @@ You orchestrate these agents:
 - `destructor`
 - `auditor`
 - `falsifier`
+- `hardening_guard`
 - `synthesizer`
 - `escalator`
 
@@ -269,6 +270,7 @@ Write an initial `state.json` with this structure:
   "core_state": {
     "question_object": null,
     "tensions": [],
+    "claims": [],
     "alternatives": [],
     "tests": [],
     "frontiers": [],
@@ -320,6 +322,7 @@ Write an initial `state.json` with this structure:
     "cessation_or_transition": null
   },
   "working_position": null,
+  "claims": [],
   "verdict_type": null,
   "confidence_by_layer": {
     "mechanism": null,
@@ -340,6 +343,7 @@ Write an initial `state.json` with this structure:
   "evidence_dependency_graph": [],
   "observable_tests": [],
   "tests": [],
+  "hardening_decisions": [],
   "best_live_counterposition": null,
   "best_serious_alternatives": [],
   "alternatives": [],
@@ -374,6 +378,8 @@ Guidance on state shape:
 - `mode_state.scrutinize` holds failure-oriented artifacts only
 - `mode_state.reframe` holds object-reformulation artifacts only
 - `mode_state.explore` holds research-agenda artifacts only
+- `claims` holds typed claim objects separate from tensions and tests
+- `hardening_decisions` records representational and operational promotion decisions separately
 - top-level legacy fields may still be maintained for compatibility, but mode transitions should prefer the split state above
 - `mode_switch_log` should record every mode transition with:
   - `from`
@@ -549,7 +555,47 @@ Otherwise, skip this step and carry forward prior `observable_tests`, `discrimin
 
 If run, print the Falsifier output with a clear round header.
 
-### 6. Conditional Escalator
+### 6. Conditional Hardening Guard
+
+Spawn `hardening_guard` with:
+
+```text
+QUESTION: <original question>
+
+CURRENT STATE JSON:
+<current state.json contents>
+
+BUILDER OUTPUT:
+<full builder output>
+
+DESTRUCTOR OUTPUT:
+<full destructor output>
+
+ALTERNATIVE BUILDER OUTPUT:
+<full alternative builder output or SKIPPED>
+
+AUDITOR OUTPUT:
+<full auditor output>
+
+FALSIFIER OUTPUT:
+<full falsifier output or SKIPPED>
+```
+
+The Hardening Guard must decide separately:
+- whether a loose object deserves stronger representation
+- whether a structured object deserves a specified or runnable discriminating test
+
+Run `hardening_guard` only if one of the following is true:
+- the round produced a new live tension worth preserving
+- the round produced a candidate claim that may deserve promotion
+- the Falsifier proposed a discriminating test
+- the loop appears to be converging and a claim may be marked as crystallized
+
+Otherwise, skip this step and carry forward prior `claims`, `tests`, and `hardening_decisions`.
+
+If run, print the Hardening Guard output with a clear round header.
+
+### 7. Conditional Escalator
 
 From round 2 onward, you may spawn `escalator` with:
 
@@ -579,7 +625,7 @@ Do not run `escalator` if the current round already produced a new decisive bott
 
 If it fires, print the escalation prominently and inject the escalation question into the next Builder round.
 
-### 7. Synthesizer
+### 8. Synthesizer
 
 Spawn `synthesizer` with:
 
@@ -601,6 +647,9 @@ AUDITOR OUTPUT:
 FALSIFIER OUTPUT:
 <full falsifier output or SKIPPED>
 
+HARDENING GUARD OUTPUT:
+<full hardening_guard output or SKIPPED>
+
 ESCALATOR OUTPUT:
 <full escalator output or SKIPPED>
 
@@ -620,6 +669,7 @@ After each round, update `state.json` conservatively.
 - `claim_types`: mechanism, direction, magnitude, attribution, and impact separated explicitly
 - `dimension_status`: chronology, causation, magnitude, attribution, cessation/transition tracked separately when relevant
 - `working_position`: current strongest refined claim
+- `claims`: typed claim objects with explicit representational status
 - `verdict_type`: current verdict taxonomy label
 - `confidence_by_layer`: decomposed confidence for mechanism, magnitude, attribution, and forecast
 - `decisive_bottleneck`: single strongest blocker identified so far
@@ -634,7 +684,8 @@ After each round, update `state.json` conservatively.
 - `alternative_evidence_interpretations`: strongest serious reinterpretations of key evidence items
 - `evidence_dependency_graph`: which evidence lines share assumptions or data sources
 - `observable_tests`: falsifiers, thresholds, or predictions
-- `tests`: typed test objects with status and target
+- `tests`: typed test objects with operational status and target
+- `hardening_decisions`: explicit decisions separating representational promotion from test promotion
 - `best_live_counterposition`: strongest alternative explanation still alive
 - `best_serious_alternatives`: strongest non-strawman alternatives
 - `alternatives`: typed alternative objects with status and revival conditions
@@ -664,11 +715,13 @@ When agents are skipped, record them explicitly as `SKIPPED` with a short reason
 
 Prefer updating object lifecycles over writing prose summaries. Each important move in a round should become one of:
 - new tension
+- promoted structured tension
+- promoted candidate claim
 - narrowed alternative
 - failed attack with revival condition
-- new or sharpened test
+- new, specified, runnable, or sharpened test
 - frontier declaration
-- crystallized claim
+- crystallized claim with explicit hardening rationale
 
 Also preserve:
 - evidence lines that looked independent but were not
@@ -682,9 +735,21 @@ Use lightweight typed objects where possible:
   "id": "t1",
   "type": "tension",
   "description": "...",
-  "status": "live|reframed|dissolved|frontier",
+  "status": "loose_tension|structured_tension|live|reframed|dissolved|frontier",
   "origin_round": 1,
   "last_updated_round": 3
+}
+```
+
+```json
+{
+  "id": "c1",
+  "type": "claim",
+  "description": "...",
+  "status": "candidate_claim|working|crystallized_claim|weakened|rejected",
+  "depends_on": ["t1", "a1"],
+  "origin_round": 2,
+  "last_updated_round": 4
 }
 ```
 
@@ -706,9 +771,21 @@ Use lightweight typed objects where possible:
   "type": "test",
   "description": "...",
   "target": "claim|alternative|tension",
-  "status": "new|sharpened|decisive|exhausted",
+  "status": "proposed|specified|runnable|sharpened|decisive|exhausted|blocked",
   "origin_round": 2,
   "last_updated_round": 4
+}
+```
+
+```json
+{
+  "round": 4,
+  "object": "c1",
+  "representational_decision": "promote_to_candidate_claim",
+  "operational_decision": "promote_to_specified_test",
+  "why_now": "...",
+  "blocked_by": [],
+  "trigger": "hardening_guard"
 }
 ```
 
@@ -731,6 +808,7 @@ You may stop early only when all three are true:
 3. The Escalator does not identify a missing first-principles frame shift.
 4. No coherent alternative still explains the key observables within the same order of magnitude without being named explicitly in the final verdict.
 5. No skipped specialist agent is still needed to resolve a live ambiguity.
+6. No claim is marked `crystallized_claim` without an explicit hardening decision in state.
 
 ## Level 2 Refinement
 
