@@ -750,6 +750,7 @@ After each round, update `state.json` conservatively.
 Never rewrite prior rounds into a smoothed summary. Store raw agent outputs for each round. If you add a coordinator note, keep it short and clearly marked as a note.
 Never overwrite `conversation_log.md`; only append to it.
 Do not introduce unsupported quantitative contribution estimates or effect shares into the state unless they are grounded in explicit evidence, derivation, or clearly marked as heuristic placeholders.
+Treat `STATE_DELTA` as the preferred machine-readable update surface. When agents provide both prose and delta structure, prefer the delta for state mutation and use the prose as rationale.
 
 When agents are skipped, record them explicitly as `SKIPPED` with a short reason.
 
@@ -826,6 +827,41 @@ Use lightweight typed objects where possible:
   "why_now": "...",
   "blocked_by": [],
   "trigger": "hardening_guard"
+}
+```
+
+```json
+{
+  "add_objects": [
+    {
+      "id": "NEW",
+      "type": "tension",
+      "status": "loose_tension",
+      "description": "..."
+    }
+  ],
+  "update_objects": [
+    {
+      "id": "c1",
+      "fields": {
+        "status": "weakened"
+      }
+    }
+  ],
+  "add_links": [
+    {
+      "source": "x1",
+      "relation": "tests",
+      "target": "c1"
+    }
+  ],
+  "blocked_promotions": [
+    {
+      "id": "c1",
+      "reason": "No discriminating procedure yet"
+    }
+  ],
+  "notes": "Short rationale for the state change"
 }
 ```
 

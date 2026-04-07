@@ -61,9 +61,25 @@ ALLOWED_NEXT_STEP:
 [continue | revise_state | rerun_hardening | rerun_falsifier]
 
 STATE_DELTA:
-- Block object: [stable id -> reason]
-- Require field: [state path -> requirement]
-- Downgrade status: [stable id -> lower valid status]
+- add_objects:
+  NONE
+- update_objects:
+  - id: [stable id]
+    fields:
+      status: [lower valid status when downgrade is required]
+or
+  NONE
+- add_links:
+  NONE
+- blocked_promotions:
+  - id: [stable id]
+    reason: [why promotion is blocked]
+or
+  NONE
+- notes:
+  [short note on required state repair]
+or
+  NONE
 or
 NONE
 

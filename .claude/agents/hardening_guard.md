@@ -68,9 +68,29 @@ PROMOTION_DECISION:
 [stay_loose | structure_only | structure_and_specify_test | crystallize_claim]
 
 STATE_DELTA:
-- Update object: [object id -> new representational status]
-- Update test: [test id or target object -> new operational status]
-- Block promotion: [object id -> reason]
+- add_objects:
+  NONE
+- update_objects:
+  - id: [stable id]
+    fields:
+      status: [loose_tension | structured_tension | candidate_claim | crystallized_claim]
+or
+  NONE
+- add_links:
+  - source: [stable id]
+    relation: [supported_by_test | depends_on]
+    target: [stable id]
+or
+  NONE
+- blocked_promotions:
+  - id: [stable id]
+    reason: [why promotion should not proceed]
+or
+  NONE
+- notes:
+  [short note on representational vs operational promotion]
+or
+  NONE
 or
 NONE
 

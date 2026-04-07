@@ -52,8 +52,34 @@ REASON:
 [Why the position survives, fails, or only partially survives]
 
 STATE_DELTA:
-- Attack target: [which claim/assumption/tension was attacked]
-- Transition: [weakened | preserved | split | escalated]
-- Revival condition: [what evidence would make the attacked alternative live again]
+- add_objects:
+  - id: [stable id or NEW]
+    type: [tension | assumption]
+    status: [loose_tension | structured_tension | NONE]
+    description: [new contradiction or surfaced failing premise]
+or
+  NONE
+- update_objects:
+  - id: [stable id]
+    fields:
+      status: [weakened | preserved | split | escalated]
+      revival_condition: [what evidence would make the attacked object live again]
+or
+  NONE
+- add_links:
+  - source: [stable id]
+    relation: [attacks]
+    target: [stable id]
+or
+  NONE
+- blocked_promotions:
+  - id: [stable id]
+    reason: [why this object should not be hardened further]
+or
+  NONE
+- notes:
+  [short note on the decisive attack]
+or
+  NONE
 or
 NONE

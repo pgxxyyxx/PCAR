@@ -79,9 +79,34 @@ or
 NONE
 
 STATE_DELTA:
-- Add tension: [new unresolved contradiction]
-- Add assumption: [new hidden assumption]
-- Refine claim: [how the working position should change]
+- add_objects:
+  - id: [stable id or NEW]
+    type: [tension | assumption | claim]
+    status: [loose_tension | structured_tension | candidate_claim | working | NONE]
+    description: [object text]
+or
+  NONE
+- update_objects:
+  - id: [stable id]
+    fields:
+      [field_name]: [new value]
+or
+  NONE
+- add_links:
+  - source: [stable id]
+    relation: [depends_on | supports | attacks | raises]
+    target: [stable id]
+or
+  NONE
+- blocked_promotions:
+  - id: [stable id or NEW]
+    reason: [why this should not yet harden]
+or
+  NONE
+- notes:
+  [short note on what changed in state]
+or
+  NONE
 or
 NONE
 
@@ -95,3 +120,4 @@ Rules:
 - If the last escalation question changed the frame, answer within that frame.
 - Do not use words like "confirmed", "settled", or "established" unless tied to a direct measurement constraint.
 - Do not treat proxies or model inversions as if they were direct measurements.
+- Use stable IDs whenever they already exist in state. Use `NEW` only when introducing a genuinely new object.

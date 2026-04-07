@@ -57,9 +57,35 @@ MOST_INTERESTING_NONSTANDARD_ANGLE:
 [The single most promising nonstandard frame that still respects physics]
 
 STATE_DELTA:
-- Add alternative: [strong alternative worth preserving]
-- Add hidden variable: [candidate latent variable]
-- Narrow alternative: [how a broader fringe claim should be compressed into a serious testable form]
+- add_objects:
+  - id: [stable id or NEW]
+    type: [alternative | assumption]
+    status: [live | narrowed | NONE]
+    description: [alternative or hidden variable worth preserving]
+or
+  NONE
+- update_objects:
+  - id: [stable id]
+    fields:
+      status: [live | narrowed | hybridized]
+      description: [refined alternative if narrowed]
+or
+  NONE
+- add_links:
+  - source: [stable id]
+    relation: [reinterprets | depends_on | raises]
+    target: [stable id]
+or
+  NONE
+- blocked_promotions:
+  - id: [stable id or NEW]
+    reason: [why this alternative should stay narrow or provisional]
+or
+  NONE
+- notes:
+  [short note on the best preserved alternative]
+or
+  NONE
 or
 NONE
 
@@ -70,3 +96,4 @@ Rules:
 - Return at most 2 alternatives.
 - Keep each section concise and high-signal.
 - Raise the evidentiary bar: a serious alternative must say what data it reinterprets and why.
+- Use stable IDs whenever state already contains the object.

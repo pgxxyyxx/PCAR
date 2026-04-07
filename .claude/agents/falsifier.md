@@ -85,9 +85,35 @@ OPERATIONAL_HARDENING_RECOMMENDATION:
 [no_test_promotion | promote_to_specified_test | promote_to_runnable_test]
 
 STATE_DELTA:
-- Add test: [new discriminating test]
-- Upgrade test: [existing test sharpened]
-- Mark frontier: [tradeoff that cannot currently be resolved analytically]
+- add_objects:
+  - id: [stable id or NEW]
+    type: [test | frontier]
+    status: [proposed | specified | runnable | frontier | NONE]
+    description: [new test or frontier text]
+or
+  NONE
+- update_objects:
+  - id: [stable id]
+    fields:
+      status: [proposed | specified | runnable | sharpened | decisive | exhausted | blocked]
+      target: [stable id]
+or
+  NONE
+- add_links:
+  - source: [stable id]
+    relation: [tests | differentiates | constrains]
+    target: [stable id]
+or
+  NONE
+- blocked_promotions:
+  - id: [stable id or NEW]
+    reason: [why a test should not yet be promoted]
+or
+  NONE
+- notes:
+  [short note on the best next discriminating move]
+or
+  NONE
 or
 NONE
 
@@ -96,3 +122,4 @@ Rules:
 - Prefer one strong discriminating test over many weak ones.
 - Do not repeat tests already preserved in state unless they are still the best next test.
 - Separate "this object deserves stronger structure" from "this object deserves a runnable test".
+- Use stable IDs whenever the tested object already exists in state.
