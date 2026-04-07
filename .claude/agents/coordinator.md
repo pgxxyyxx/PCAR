@@ -577,15 +577,15 @@ FALSIFIER OUTPUT:
 <full falsifier output or SKIPPED>
 ```
 
-The Hardening Guard must decide separately:
+The Hardening Guard decides:
 - whether a loose object deserves stronger representation
 - whether a structured object deserves a specified or runnable discriminating test
 
 Run `hardening_guard` only if one of the following is true:
-- the round produced a new live tension worth preserving
-- the round produced a candidate claim that may deserve promotion
-- the Falsifier proposed a discriminating test
-- the loop appears to be converging and a claim may be marked as crystallized
+- the round introduced a new tension or materially changed a tension status
+- the round introduced or updated a candidate claim
+- the Falsifier proposed or upgraded a discriminating test beyond `proposed`
+- the loop is near convergence and a claim may be marked as crystallized
 
 Otherwise, skip this step and carry forward prior `claims`, `tests`, and `hardening_decisions`.
 
@@ -608,18 +608,12 @@ FALSIFIER OUTPUT:
 <full falsifier output or SKIPPED>
 ```
 
-The State Guard must inspect the current state for:
-- missing required object fields
-- invalid lifecycle transitions
-- stable id problems
-- crystallized claims without valid hardening support
-- tests promoted beyond what the state actually supports
+The State Guard checks state integrity before synthesis.
 
-Run `state_guard` whenever `hardening_guard` ran.
-You may also run it when:
-- the loop appears to be converging
+Run `state_guard` only if one of the following is true:
+- `hardening_guard` returned a promotion decision other than `stay_loose`
 - a claim may be marked as crystallized
-- the current state contains several changed object statuses in one round
+- multiple object statuses changed in the same round
 
 If the State Guard returns `FAIL`, do not synthesize as if the state were clean. First revise state conservatively using the State Guard's findings.
 
