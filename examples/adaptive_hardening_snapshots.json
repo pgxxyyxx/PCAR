@@ -1,0 +1,160 @@
+{
+  "name": "adaptive_hardening_minimal",
+  "description": "Static reference snapshots for the hardening ladder.",
+  "snapshots": [
+    {
+      "question": "Does exposing intermediate reasoning improve model faithfulness, or only the appearance of faithfulness?",
+      "round": 1,
+      "status": "in_progress",
+      "tensions": [
+        {
+          "id": "t1",
+          "type": "tension",
+          "description": "Visibility of reasoning steps may help the verifier or user without improving the model's own faithfulness.",
+          "status": "loose_tension",
+          "origin_round": 1,
+          "last_updated_round": 1
+        }
+      ],
+      "claims": [],
+      "alternatives": [],
+      "tests": [],
+      "hardening_decisions": [
+        {
+          "round": 1,
+          "object": "t1",
+          "representational_decision": "stay_loose",
+          "operational_decision": "no_test_promotion",
+          "why_now": "Competing positions exist only in rough form and no discriminating procedure is specified yet.",
+          "blocked_by": ["procedure", "decision relevance not yet scoped"],
+          "trigger": "hardening_guard"
+        }
+      ]
+    },
+    {
+      "question": "Does exposing intermediate reasoning improve model faithfulness, or only the appearance of faithfulness?",
+      "round": 2,
+      "status": "in_progress",
+      "tensions": [
+        {
+          "id": "t1",
+          "type": "tension",
+          "description": "Two live positions now exist: visibility changes model internals, or visibility only changes user or verifier trust.",
+          "status": "structured_tension",
+          "origin_round": 1,
+          "last_updated_round": 2
+        }
+      ],
+      "claims": [],
+      "alternatives": [],
+      "tests": [],
+      "hardening_decisions": [
+        {
+          "round": 2,
+          "object": "t1",
+          "representational_decision": "promote_to_structured_tension",
+          "operational_decision": "no_test_promotion",
+          "why_now": "The tension now has stable identity, explicit competing positions, and dependency relevance.",
+          "blocked_by": [],
+          "trigger": "hardening_guard"
+        }
+      ]
+    },
+    {
+      "question": "Does exposing intermediate reasoning improve model faithfulness, or only the appearance of faithfulness?",
+      "round": 3,
+      "status": "in_progress",
+      "tensions": [
+        {
+          "id": "t1",
+          "type": "tension",
+          "description": "Two live positions now exist: visibility changes model internals, or visibility only changes user or verifier trust.",
+          "status": "structured_tension",
+          "origin_round": 1,
+          "last_updated_round": 3
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "type": "claim",
+          "description": "Intermediate reasoning visibility improves faithfulness only when the model can revise against the visible steps.",
+          "status": "candidate_claim",
+          "origin_round": 3,
+          "last_updated_round": 3
+        }
+      ],
+      "alternatives": [],
+      "tests": [
+        {
+          "id": "x1",
+          "type": "test",
+          "description": "Compare direct answer, CoT shown only to the user, and CoT plus self-critique loop on accuracy, calibration, and overtrust gap.",
+          "target": "c1",
+          "status": "specified",
+          "origin_round": 3,
+          "last_updated_round": 3
+        }
+      ],
+      "hardening_decisions": [
+        {
+          "round": 3,
+          "object": "c1",
+          "representational_decision": "promote_to_candidate_claim",
+          "operational_decision": "promote_to_specified_test",
+          "why_now": "The structured tension now supports a stable candidate claim and a specified discriminating comparison.",
+          "blocked_by": [],
+          "trigger": "hardening_guard"
+        }
+      ]
+    },
+    {
+      "question": "Does exposing intermediate reasoning improve model faithfulness, or only the appearance of faithfulness?",
+      "round": 4,
+      "status": "complete",
+      "tensions": [
+        {
+          "id": "t1",
+          "type": "tension",
+          "description": "Two live positions now exist: visibility changes model internals, or visibility only changes user or verifier trust.",
+          "status": "dissolved",
+          "origin_round": 1,
+          "last_updated_round": 4
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "type": "claim",
+          "description": "Intermediate reasoning visibility improves faithfulness only when the model can revise against the visible steps.",
+          "status": "crystallized_claim",
+          "origin_round": 3,
+          "last_updated_round": 4
+        }
+      ],
+      "alternatives": [],
+      "tests": [
+        {
+          "id": "x1",
+          "type": "test",
+          "description": "Compare direct answer, CoT shown only to the user, and CoT plus self-critique loop on accuracy, calibration, and overtrust gap.",
+          "target": "c1",
+          "status": "runnable",
+          "origin_round": 3,
+          "last_updated_round": 4
+        }
+      ],
+      "hardening_decisions": [
+        {
+          "round": 4,
+          "object": "c1",
+          "representational_decision": "stay_structured",
+          "operational_decision": "promote_to_runnable_test",
+          "why_now": "The candidate claim now has a discriminating procedure that is explicit, decision-relevant, and runnable.",
+          "blocked_by": [],
+          "trigger": "hardening_guard"
+        }
+      ]
+    }
+  ]
+}
