@@ -268,6 +268,7 @@ Write an initial `state.json` with this structure:
   "round": 0,
   "max_rounds": 6,
   "status": "in_progress",
+  "safety_stop_reason": null,
   "core_state": {
     "question_object": null,
     "tensions": [],
@@ -280,9 +281,16 @@ Write an initial `state.json` with this structure:
     "hidden_assumptions": [],
     "hidden_variable_candidates": [],
     "evidence_dependency_graph": [],
+    "dependency_findings": [],
     "asymmetric_risks": [],
     "surviving_residuals": [],
     "decisive_bottleneck": null,
+    "best_live_counterposition": null,
+    "best_serious_alternatives": [],
+    "discriminating_tests": [],
+    "observable_tests": [],
+    "hardening_decisions": [],
+    "state_guard_notes": [],
     "update_rule": null
   },
   "mode_state": {
@@ -323,7 +331,6 @@ Write an initial `state.json` with this structure:
     "cessation_or_transition": null
   },
   "working_position": null,
-  "claims": [],
   "verdict_type": null,
   "confidence_by_layer": {
     "mechanism": null,
@@ -331,29 +338,11 @@ Write an initial `state.json` with this structure:
     "attribution": null,
     "forecast": null
   },
-  "decisive_bottleneck": null,
-  "live_tensions": [],
-  "tensions": [],
-  "hidden_assumptions": [],
-  "surviving_residuals": [],
   "required_conditions": [],
   "necessary_physical_conditions": [],
   "equations_used": [],
   "measured_constraints": [],
   "alternative_evidence_interpretations": [],
-  "evidence_dependency_graph": [],
-  "observable_tests": [],
-  "tests": [],
-  "hardening_decisions": [],
-  "best_live_counterposition": null,
-  "best_serious_alternatives": [],
-  "alternatives": [],
-  "hidden_variable_candidates": [],
-  "discriminating_tests": [],
-  "frontiers": [],
-  "asymmetric_risks": [],
-  "contradiction_memory": [],
-  "transition_log": [],
   "best_hybrid_model": null,
   "empirical_evidence_status": {
     "direct_measurements": null,
@@ -367,7 +356,6 @@ Write an initial `state.json` with this structure:
     "reason": null
   },
   "field_advancing_question": null,
-  "update_rule": null,
   "escalator_history": [],
   "rounds": [],
   "conversation_log": []
@@ -379,9 +367,10 @@ Guidance on state shape:
 - `mode_state.scrutinize` holds failure-oriented artifacts only
 - `mode_state.reframe` holds object-reformulation artifacts only
 - `mode_state.explore` holds research-agenda artifacts only
-- `claims` holds typed claim objects separate from tensions and tests
-- `hardening_decisions` records representational and operational promotion decisions separately
-- top-level legacy fields may still be maintained for compatibility, but mode transitions should prefer the split state above
+- top-level fields should hold session metadata, decomposed verdict fields, and compatibility summaries only
+- `core_state.hardening_decisions` records representational and operational promotion decisions separately
+- `core_state.dependency_findings` stores explicit dependency collapses or shared-assumption findings that later operators must read
+- prefer `core_state` over top-level mirrors whenever there is overlap
 - `mode_switch_log` should record every mode transition with:
   - `from`
   - `to`
@@ -391,7 +380,9 @@ Guidance on state shape:
 
 ## Round Structure
 
-Run up to 6 rounds, stopping early if the Synthesizer produces a stable final verdict and the Escalator does not require a new frame shift.
+Use mode-specific stop conditions as the primary stopping logic.
+`max_rounds` is a safety ceiling, not the main driver of convergence.
+If the loop reaches `max_rounds`, stop only because the safety ceiling was hit and record the reason in `safety_stop_reason`.
 
 Maintain two context layers:
 - `archival context`: the full raw outputs stored in `state.json`
@@ -424,16 +415,16 @@ CURRENT WORKING POSITION:
 <state.working_position or NONE>
 
 LIVE TENSIONS:
-<state.live_tensions or NONE>
+<state.core_state.tensions or NONE>
 
 HIDDEN ASSUMPTIONS:
-<state.hidden_assumptions or NONE>
+<state.core_state.hidden_assumptions or NONE>
 
 SURVIVING RESIDUALS:
-<state.surviving_residuals or NONE>
+<state.core_state.surviving_residuals or NONE>
 
 DECISIVE BOTTLENECK:
-<state.decisive_bottleneck or NONE>
+<state.core_state.decisive_bottleneck or NONE>
 
 LAST ESCALATION QUESTION:
 <last escalation question or NONE>
@@ -482,9 +473,9 @@ DESTRUCTOR OUTPUT:
 CURRENT STATE SUMMARY:
 - Exact hypothesis: <state.exact_hypothesis or NONE>
 - Claim types: <state.claim_types or NONE>
-- Decisive bottleneck: <state.decisive_bottleneck or NONE>
-- Surviving residuals: <state.surviving_residuals or NONE>
-- Best live counterposition: <state.best_live_counterposition or NONE>
+- Decisive bottleneck: <state.core_state.decisive_bottleneck or NONE>
+- Surviving residuals: <state.core_state.surviving_residuals or NONE>
+- Best live counterposition: <state.core_state.best_live_counterposition or NONE>
 ```
 
 The Auditor checks whether the reasoning actually follows from first principles and whether either side smuggled in unsupported leaps.
@@ -502,10 +493,10 @@ CURRENT LEADING POSITION:
 <builder position>
 
 LIVE TENSIONS:
-<state.live_tensions or NONE>
+<state.core_state.tensions or NONE>
 
 HIDDEN ASSUMPTIONS:
-<state.hidden_assumptions or NONE>
+<state.core_state.hidden_assumptions or NONE>
 
 CURRENT STATE JSON:
 <current state or NONE>
@@ -541,9 +532,13 @@ BEST SERIOUS ALTERNATIVES:
 
 AUDIT FINDINGS:
 <auditor output>
+
+DEPENDENCY FINDINGS FROM STATE:
+<state.core_state.dependency_findings or NONE>
 ```
 
 The Falsifier must turn the current state into observable tests, thresholds, or update conditions.
+It must explicitly respect known dependency collapses from `core_state.dependency_findings` and `core_state.evidence_dependency_graph`.
 
 Run `falsifier` only if one of the following is true:
 - the Builder position partially survived attack
@@ -707,45 +702,45 @@ After each round, update `state.json` conservatively.
 - `claim_types`: mechanism, direction, magnitude, attribution, and impact separated explicitly
 - `dimension_status`: chronology, causation, magnitude, attribution, cessation/transition tracked separately when relevant
 - `working_position`: current strongest refined claim
-- `claims`: typed claim objects with explicit representational status
 - `verdict_type`: current verdict taxonomy label
 - `confidence_by_layer`: decomposed confidence for mechanism, magnitude, attribution, and forecast
-- `decisive_bottleneck`: single strongest blocker identified so far
-- `live_tensions`: unresolved contradictions still worth processing
-- `tensions`: typed tension objects with lifecycle state
-- `hidden_assumptions`: unexamined load-bearing assumptions
-- `surviving_residuals`: weakest claims still alive after attack
+- `core_state.decisive_bottleneck`: single strongest blocker identified so far
+- `core_state.tensions`: authoritative tension objects with lifecycle state
+- `core_state.claims`: authoritative typed claim objects
+- `core_state.hidden_assumptions`: unexamined load-bearing assumptions
+- `core_state.surviving_residuals`: weakest claims still alive after attack
 - `required_conditions`: high-level conditions that must hold if the claim is true
 - `necessary_physical_conditions`: the physical conditions only; keep these separate from observations
 - `equations_used`: equations, scaling laws, or conservation principles explicitly invoked
 - `measured_constraints`: measured constraints referenced as bounds, not authority
 - `alternative_evidence_interpretations`: strongest serious reinterpretations of key evidence items
-- `evidence_dependency_graph`: which evidence lines share assumptions or data sources
-- `observable_tests`: falsifiers, thresholds, or predictions
-- `tests`: typed test objects with operational status and target
-- `hardening_decisions`: explicit decisions separating representational promotion from test promotion
-- `state_guard_notes`: last structural validation result and any blocked promotions
-- `best_live_counterposition`: strongest alternative explanation still alive
-- `best_serious_alternatives`: strongest non-strawman alternatives
-- `alternatives`: typed alternative objects with status and revival conditions
-- `hidden_variable_candidates`: plausible latent variables that could dissolve tensions
-- `discriminating_tests`: tests that separate the leading claim from the best counterposition
-- `frontiers`: irreducible or currently irreducible tradeoff surfaces
-- `asymmetric_risks`: low-probability high-impact interpretations that would radically change the answer if true
-- `contradiction_memory`: strongest failed attacks, why they failed, and what would revive them
-- `transition_log`: explicit object-level state transitions round by round
+- `core_state.evidence_dependency_graph`: which evidence lines share assumptions or data sources
+- `core_state.dependency_findings`: explicit dependency collapses from Auditor that later operators must use
+- `core_state.observable_tests`: falsifiers, thresholds, or predictions
+- `core_state.tests`: authoritative typed test objects with operational status and target
+- `core_state.hardening_decisions`: explicit decisions separating representational promotion from test promotion
+- `core_state.state_guard_notes`: last structural validation result and any blocked promotions
+- `core_state.best_live_counterposition`: strongest alternative explanation still alive
+- `core_state.best_serious_alternatives`: strongest non-strawman alternatives
+- `core_state.alternatives`: authoritative typed alternative objects with status and revival conditions
+- `core_state.hidden_variable_candidates`: plausible latent variables that could dissolve tensions
+- `core_state.discriminating_tests`: tests that separate the leading claim from the best counterposition
+- `core_state.frontiers`: irreducible or currently irreducible tradeoff surfaces
+- `core_state.asymmetric_risks`: low-probability high-impact interpretations that would radically change the answer if true
+- `core_state.contradiction_memory`: strongest failed attacks, why they failed, and what would revive them
+- `core_state.transition_log`: explicit object-level state transitions round by round
 - `best_hybrid_model`: strongest hybrid model still consistent with the evidence
 - `empirical_evidence_status`: quality split across direct measurements, proxies, inversions, and interpretation load
 - `dependency_adjusted_support`: how much support remains after accounting for non-independence
 - `convergence_status`: whether convergence is evidence-driven or merely search exhaustion
 - `field_advancing_question`: the single best question that would move the field forward
-- `update_rule`: the observation most likely to change the verdict
+- `core_state.update_rule`: the observation most likely to change the verdict
 - `escalator_history`: mode, question, and round whenever the Escalator fires
 - `rounds`: append the full outputs for all agents for that round
 - `conversation_log`: append lightweight metadata for each appended transcript block (round number, agents present, path anchor if useful)
 - `mode_switch_log`: append explicit mode transitions and reasons
 - `operator_sequence`: append operator/agent use events and reasons
-- if `state_guard` ran, append its verdict and blocked promotions into state
+- if `state_guard` ran, append its verdict and blocked promotions into `core_state.state_guard_notes`
 
 Never rewrite prior rounds into a smoothed summary. Store raw agent outputs for each round. If you add a coordinator note, keep it short and clearly marked as a note.
 Never overwrite `conversation_log.md`; only append to it.
@@ -908,7 +903,7 @@ KEY EVIDENCE STACK:
 <state.measured_constraints>
 
 BEST LIVE COUNTERPOSITION:
-<state.best_live_counterposition or NONE>
+<state.core_state.best_live_counterposition or NONE>
 ```
 
 Ask it to do only three things:
@@ -989,13 +984,13 @@ Confidence By Layer:
 <state.confidence_by_layer>
 
 Decisive Bottleneck:
-<state.decisive_bottleneck>
+<state.core_state.decisive_bottleneck>
 
 Strongest Surviving Residual:
-<state.surviving_residuals>
+<state.core_state.surviving_residuals>
 
 Best Live Counterposition:
-<state.best_live_counterposition>
+<state.core_state.best_live_counterposition>
 
 Best Hybrid Model:
 <state.best_hybrid_model>
@@ -1004,10 +999,10 @@ Required Conditions:
 <state.required_conditions>
 
 Observable Tests:
-<state.observable_tests>
+<state.core_state.observable_tests>
 
 Discriminating Tests:
-<state.discriminating_tests>
+<state.core_state.discriminating_tests>
 
 Empirical Evidence Status:
 <state.empirical_evidence_status>
