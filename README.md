@@ -1,10 +1,10 @@
-# Progressive Crystallization
+# Multi-Agent Progressive Crystallization (MAPC)
 
 > The first plausible answer to a hard question is almost never the right one. It is usually operating at the wrong level, holding the wrong variable fixed, treating dependent evidence as independent, or smoothing over a tension that should have remained live.
 
 Most AI reasoning does not fail by producing nonsense. It fails by producing something clear, plausible, internally consistent, and prematurely complete. For hard questions, that is often the most expensive failure mode.
 
-**Progressive Crystallization is a state-first reasoning scaffold for Claude Code.** It turns Claude Code into something closer to an adversarial research team: a builder who steelmans the strongest position, a destructor who attacks the weakest assumption, an auditor who checks both sides for circular reasoning, a falsifier who demands testable predictions, an escalator who refuses to let the analysis settle at the wrong level, and a synthesizer who preserves what survives without smoothing away the tensions.
+**Multi-Agent Progressive Crystallization (MAPC) is a state-first reasoning scaffold for Claude Code.** It turns Claude Code into something closer to an adversarial research team: a builder who steelmans the strongest position, a destructor who attacks the weakest assumption, an auditor who checks both sides for circular reasoning, a falsifier who demands testable predictions, an escalator who refuses to let the analysis settle at the wrong level, and a synthesizer who preserves what survives without smoothing away the tensions.
 
 Six commands. Ten agents. All slash commands, all Markdown, all MIT licensed.
 
@@ -22,8 +22,8 @@ Six commands. Ten agents. All slash commands, all Markdown, all MIT licensed.
 ## Install
 
 ```bash
-git clone https://github.com/pgxxyyxx/PCAR.git
-cd PCAR
+git clone https://github.com/pgxxyyxx/MAPC.git
+cd MAPC
 ```
 
 Open the directory in Claude Code. The commands and agents load automatically. No build step, no dependencies, no setup script.
@@ -82,7 +82,7 @@ The system did not summarize two sides and declare a middle ground. It separated
 
 ## The loop
 
-Progressive Crystallization is a process, not a collection of prompts. Each command applies a different kind of pressure, and the system maintains structured epistemic state across rounds: tensions, claims, alternatives, tests, assumptions, and dependency links, each with lifecycle status and attack history.
+MAPC is a process, not a collection of prompts. Each command applies a different kind of pressure, and the system maintains structured epistemic state across rounds: tensions, claims, alternatives, tests, assumptions, and dependency links, each with lifecycle status and attack history.
 
 The core idea: **the transcript is archival context; the state is the primary object of control.**
 

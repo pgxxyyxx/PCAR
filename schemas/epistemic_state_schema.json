@@ -1,5 +1,5 @@
 {
-  "description": "Minimal transitional schema for Progressive Crystallization state. This documents the intended object model and lifecycle states while the runtime remains prompt-driven.",
+  "description": "Minimal transitional schema for Multi-Agent Progressive Crystallization (MAPC) state. This documents the intended object model and lifecycle states while the runtime remains prompt-driven.",
   "object_types": {
     "tension": {
       "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],

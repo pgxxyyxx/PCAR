@@ -1,4 +1,4 @@
-# Progressive Crystallization
+# Multi-Agent Progressive Crystallization (MAPC)
 ## A Timing Policy for Formalization in LLM Reasoning Systems
 
 Working Paper v3 • April 2026
@@ -23,7 +23,7 @@ The distinction here is not between text and state. In practice, state will stil
 
 **The fix is simple to state.** Make epistemic objects first-class. Give them types, lifecycle states, and dependency links. Store them in a structured state object that persists across operations. Reasoning becomes state transformation: read the current epistemic state, apply an operation such as attack, audit, reframe, or test, and write the updated state.
 
-This is not a new idea. Truth maintenance systems (de Kleer, 1986) maintain beliefs with justification trails and dependency tracking under contradiction. Formal argumentation frameworks (Dung, 1995) model reasoning as attack graphs where the admissible set, meaning what survives all available attacks, is computed over the structure. Blackboard architectures (Engelmore and Morgan, 1988) use shared structured state with specialist agents contributing to different regions. Progressive crystallization imports the state-object idea from these traditions and instantiates it on LLM-based multi-agent systems. The import is the easy part.
+This is not a new idea. Truth maintenance systems (de Kleer, 1986) maintain beliefs with justification trails and dependency tracking under contradiction. Formal argumentation frameworks (Dung, 1995) model reasoning as attack graphs where the admissible set, meaning what survives all available attacks, is computed over the structure. Blackboard architectures (Engelmore and Morgan, 1988) use shared structured state with specialist agents contributing to different regions. MAPC imports the state-object idea from these traditions and instantiates it on LLM-based multi-agent systems. The import is the easy part.
 
 ---
 
