@@ -6,7 +6,7 @@ Most AI reasoning does not fail by producing nonsense. It fails by producing som
 
 **Multi-Agent Progressive Crystallization (MAPC) is a state-first reasoning scaffold for Claude Code.** It turns Claude Code into something closer to an adversarial research team: a builder who steelmans the strongest position, a destructor who attacks the weakest assumption, an auditor who checks both sides for circular reasoning, a falsifier who demands testable predictions, an escalator who refuses to let the analysis settle at the wrong level, and a synthesizer who preserves what survives without smoothing away the tensions.
 
-Six commands. Ten agents. All slash commands, all Markdown, all MIT licensed.
+Seven commands. Ten agents. All slash commands, all Markdown, all MIT licensed.
 
 **What this is for:**
 - **Researchers and analysts** who need to know what actually survives scrutiny, not just what sounds right
@@ -89,6 +89,7 @@ The core idea: **the transcript is archival context; the state is the primary ob
 | Command | What it does |
 |---------|-------------|
 | `/extract` | Paper ingestion. Converts an uploaded paper into analyst-grade structured takeaways: what was measured, what was claimed, where the gap is. Feeds into downstream scrutiny or exploration. |
+| `/lit-review` | Multi-paper ingestion. Builds a corpus-level evidence map across attached papers: agreements, disagreements, repeated assumptions, method limits, and priority gaps. |
 | `/scrutinize` | Attack the leading hypotheses. Find where evidence is circular, overclaimed, or not independent. Preserve only what survives the strongest available attacks. |
 | `/reframe` | Diagnose whether the question itself is malformed. Surface hidden dimensions, wrong abstraction levels, or compressed sub-questions. Output is a better question, not an answer. |
 | `/explore` | Map the space of serious live alternatives. Clarify what would have to be true for each to survive. Rank the measurements that would most efficiently move the epistemic state. |

@@ -18,7 +18,7 @@ Prioritize:
 - what is direct evidence versus interpretation
 - what a later analyst would need to challenge or extend the paper
 
-You must respond with this exact structure:
+If the input contains one paper, respond with this exact structure:
 
 PAPER_IDENTIFICATION:
 - Title: [title or UNKNOWN]
@@ -92,9 +92,81 @@ ANALYST_HANDOFF:
 - Doubt: [what should be treated as provisional or vulnerable]
 - Next move: [best next scrutiny, reframing, or exploration move]
 
+If the input contains multiple papers, respond with this exact structure instead:
+
+REVIEW_SCOPE:
+- Review Question: [the question or theme binding the corpus]
+- Corpus Size: [number of papers or UNKNOWN]
+- Corpus Boundaries: [what is included/excluded]
+- Review Mode: [targeted review | scoping review | evidence map | mixed | unknown]
+
+PAPER_TABLE:
+- Paper ID: [p1, p2, ...]
+  Title: [title or UNKNOWN]
+  Year: [year or UNKNOWN]
+  Source Type: [empirical study | review | meta-analysis | theory | methods | commentary | mixed | unknown]
+  Object Of Study: [what is under study]
+  Design: [short design label]
+  Sample Or Data: [short sample/data description]
+  Exact Central Claim: [strongest precise claim]
+  Strongest Evidence: [best direct evidence the paper contributes]
+  Main Limitation: [most important caveat]
+or
+NONE
+
+CROSS_PAPER_PATTERNS:
+- Pattern: [recurring result, method pattern, or disagreement]
+  Support: [which paper IDs support it]
+  Tension: [where the pattern breaks, conflicts, or weakens]
+or
+NONE
+
+EVIDENCE_MAP:
+- Claim Cluster: [shared claim or mechanism]
+  Supporting Papers: [paper IDs]
+  Evidence Quality: [strong | medium | weak | mixed | unclear]
+  Measurement Basis: [what the support actually measures]
+  Main Dependency Or Shared Assumption: [load-bearing overlap]
+or
+NONE
+
+DISAGREEMENTS_AND_TENSIONS:
+- Tension: [substantive disagreement or unresolved split]
+  Papers: [paper IDs]
+  Likely Driver: [design difference, sample difference, proxy difference, interpretation gap, or unknown]
+  What Would Resolve It: [best discriminating next evidence]
+or
+NONE
+
+METHOD_AND_DATA_LIMITS:
+- Limit: [repeated design weakness, proxy problem, sample boundary, or missing control]
+  Affected Papers: [paper IDs]
+  Why It Matters: [how it constrains the literature-level conclusion]
+or
+NONE
+
+WHAT_THE_LITERATURE_ACTUALLY_SUPPORTS:
+- Supported: [what survives across the corpus]
+- Unsupported: [what is often claimed but not actually established]
+- Frontier: [what remains live and unresolved]
+
+PRIORITY_GAPS:
+- Gap: [highest-value empirical, conceptual, or measurement gap]
+  Why It Matters: [why this is bottlenecking the field]
+  Best Next Study Or Test: [most decision-relevant next move]
+or
+NONE
+
+LIT_REVIEW_HANDOFF:
+- Keep: [what downstream analysis should treat as the strongest surviving structure]
+- Doubt: [which literature claims are overextended, dependent, or fragile]
+- Next move: [best scrutiny, reframe, explore, or research-design move]
+
 Rules:
 - Prefer extraction over evaluation.
 - Do not invent missing metadata.
 - If a detail is absent, mark it `UNKNOWN`.
 - Separate the paper's actual contribution from its sales pitch.
 - If the paper is a review or meta-analysis, distinguish between the paper's synthesis claim and the underlying primary evidence it cites.
+- For multi-paper inputs, compare papers rather than summarizing them independently.
+- For multi-paper inputs, preserve paper IDs consistently so later commands can target specific evidence lines.

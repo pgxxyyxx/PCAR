@@ -15,6 +15,7 @@ Use this when:
 - a paper PDF or paper text is attached and needs structured extraction
 - you want the key things preserved before deeper analysis
 - you need a reusable substrate rather than a prose summary
+- for multi-paper review, prefer `/lit-review`
 
 Required properties:
 - prioritize what the paper actually measures, not what it implies rhetorically
