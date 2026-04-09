@@ -1,0 +1,236 @@
+{
+  "question": "What is the strongest surviving object of inquiry in progressive crystallization as an AI reasoning framework?",
+  "reframed_question": "Does structured reasoning state with typed epistemic objects, combined with meta-cognitive gating, produce measurably better reasoning than unstructured multi-agent conversation -- and which component carries the load?",
+  "round": 1,
+  "max_rounds": 6,
+  "status": "complete",
+  "mode_sequence_planned": ["REFRAME", "EXPLORE", "STEELMAN", "FALSIFY", "SYNTHESIZE"],
+  "mode_sequence_executed": ["REFRAME (Escalator)", "EXPLORE (Alternative Builder)", "STEELMAN (Builder)", "FALSIFY (Falsifier)", "SYNTHESIZE (Synthesizer)"],
+  "exact_hypothesis": "Progressive crystallization's novel contribution, if any, lies in typed epistemic state representation and meta-cognitive gating, not in adversarial multi-agent structure (which is well-established). These two components may have independent effects and require component-attribution testing.",
+  "prior_scrutiny_findings": {
+    "survived": "Problem diagnosis partially valid; narrow novel question about optimal formalization policy; rest is TMS/argumentation/blackboard repackaging",
+    "fragile": [
+      "Discriminative prediction trigger may not be operationalizable",
+      "Formalization trap is unevidenced empirical claim",
+      "Reasoning-state loss may not be primary bottleneck",
+      "LLM circularity in judging formalization need",
+      "Worked examples may demonstrate designer not framework"
+    ],
+    "decisive_bottleneck": "Total absence of empirical evidence",
+    "field_advancing_question": "Is there an optimal policy for when to formalize reasoning state during multi-step LLM reasoning, and if so, what governs it?"
+  },
+  "working_position": "Progressive crystallization is a composite of three separable mechanisms: (1) adversarial multi-agent structure (largest contributor, least novel), (2) typed epistemic state representation (potentially novel, unevidenced), (3) meta-cognitive gating (most novel, faces circularity challenge, unevidenced). The framework's real contribution, if any, is in components 2 and 3.",
+  "verdict_type": "Decomposed-unevidenced: the framework's claim decomposes into separable components with different novelty levels, none empirically tested",
+  "confidence_by_layer": {
+    "mechanism": "Medium - three separable mechanisms identified with clear computational justifications",
+    "magnitude": "Low - no evidence for whether novel components add measurable value beyond scaffolding",
+    "attribution": "Very low - cannot attribute observed benefits to specific components without factorial experiment",
+    "forecast": "Low - whether the framework's advantage persists as base model capability improves is unknown"
+  },
+  "decisive_bottleneck": "Total absence of empirical evidence, now sharpened to: absence of a component-attribution experiment that separates adaptive hardening, typed state, and multi-agent structure.",
+  "tensions": [
+    {
+      "id": "t1",
+      "type": "tension",
+      "description": "Meta-cognitive gating circularity: the LLM doing gating may share failure modes with the LLM doing reasoning",
+      "status": "frontier",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "t2",
+      "type": "tension",
+      "description": "Adversarial scaffolding may explain most of the benefit, making novel components epiphenomenal",
+      "status": "structured_tension",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "t3",
+      "type": "tension",
+      "description": "Prompt instructions may be doing the work, not architecture",
+      "status": "structured_tension",
+      "origin_round": 1,
+      "last_updated_round": 1
+    }
+  ],
+  "hidden_assumptions": [
+    "The scrutiny assumed 'formalization' is one thing, but the framework contains two distinct mechanisms (representational + control)",
+    "The framework assumes LLMs can reliably maintain typed epistemic object consistency across rounds",
+    "The framework assumes gating operates on metadata patterns rather than content, breaking circularity -- but this is unverified",
+    "The framework assumes reasoning-state loss is the primary bottleneck rather than model capability"
+  ],
+  "surviving_residuals": [
+    "The circularity problem for meta-cognitive gating remains unresolved",
+    "The crossover point where structured state + gating outperforms scaffolding alone is unknown",
+    "Whether typed epistemic objects are computationally distinct from prose summaries in LLM processing is unknown"
+  ],
+  "required_conditions": [
+    "Typed epistemic objects must enable reasoning operations that prose summaries cannot",
+    "The gating function must detect failure modes more reliably than the reasoning LLM itself",
+    "The framework's advantage must persist and ideally grow with task complexity",
+    "The framework's advantage must not disappear as base model capability improves"
+  ],
+  "necessary_physical_conditions": [],
+  "equations_used": [],
+  "measured_constraints": [],
+  "alternative_evidence_interpretations": [
+    "Worked examples of the framework may demonstrate designer skill, not framework efficacy",
+    "Apparent reasoning quality improvements may be due to multi-turn structure, not typed state or gating",
+    "Prompt instructions embedded in the framework may be the active ingredient, not the architecture"
+  ],
+  "evidence_dependency_graph": [
+    "All current 'evidence' is anecdotal worked examples from the framework designer -- zero independence"
+  ],
+  "observable_tests": ["x1", "x2", "x3", "x4"],
+  "tests": [
+    {
+      "id": "x1",
+      "type": "test",
+      "description": "Minimal 4-condition experiment (A vs. B vs. C vs. D): adaptive hardening plus typed state plus multi-agent structure, always-formal typed state plus multi-agent structure, single-agent baseline, and prose-only multi-agent exchange. 20 problems, 3 raters, 2 base LLMs.",
+      "target": ["a1", "a2", "a3", "a4"],
+      "status": "proposed",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "x2",
+      "type": "test",
+      "description": "Gating intervention analysis: log Escalator firings, compare subsequent reasoning quality",
+      "target": "a4",
+      "status": "proposed",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "x3",
+      "type": "test",
+      "description": "State representation ablation: typed objects vs. prose summaries",
+      "target": "a3",
+      "status": "proposed",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "x4",
+      "type": "test",
+      "description": "Circularity test: Escalator detection accuracy on known frame-lock transcripts",
+      "target": "t1",
+      "status": "proposed",
+      "origin_round": 1,
+      "last_updated_round": 1
+    }
+  ],
+  "best_live_counterposition": "Adversarial scaffolding alone (Hypothesis C) explains the framework's benefits. Typed state and gating are epiphenomenal. Evidence: adversarial multi-agent debate is well-established; the framework's novel components have zero evidence; the largest contributor to reasoning quality is likely adversarial structure.",
+  "best_serious_alternatives": ["a1", "a2", "a3", "a4"],
+  "alternatives": [
+    {
+      "id": "a1",
+      "type": "alternative",
+      "description": "Scaffolding Hypothesis: adversarial turn-taking alone is the active ingredient",
+      "status": "live",
+      "revival_condition": "Pure scaffolding matches full framework on reasoning quality tasks",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "a2",
+      "type": "alternative",
+      "description": "Instruction Hypothesis: prompt engineering alone drives quality; architecture is epiphenomenal",
+      "status": "live",
+      "revival_condition": "Single-agent with same instructions matches multi-agent architecture",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "a3",
+      "type": "alternative",
+      "description": "Language Hypothesis: typed state representation is the primary novel driver",
+      "status": "live",
+      "revival_condition": "Structured-state-only systems outperform scaffolding alone",
+      "origin_round": 1,
+      "last_updated_round": 1
+    },
+    {
+      "id": "a4",
+      "type": "alternative",
+      "description": "Controller Hypothesis: meta-cognitive gating is the primary novel driver",
+      "status": "live",
+      "revival_condition": "Gating-only systems outperform non-gated systems",
+      "origin_round": 1,
+      "last_updated_round": 1
+    }
+  ],
+  "hidden_variable_candidates": [
+    "Task complexity as a moderator of framework advantage",
+    "Base model capability level as a moderator",
+    "Designer expertise baked into prompts vs. architectural contribution"
+  ],
+  "discriminating_tests": [
+    "A vs. B to test whether adaptive hardening adds value beyond always-formal typed state",
+    "B vs. D to test whether typed state adds value beyond prose-only multi-agent exchange",
+    "D vs. C to test whether multi-agent structure adds value beyond the single-agent baseline",
+    "Random-timing vs. intelligent gating to test whether gating benefit is perturbation vs. intelligence"
+  ],
+  "frontiers": [
+    "Meta-cognitive gating circularity: can an LLM reliably monitor and intervene on LLM reasoning?",
+    "Complexity crossover point: where does structured state + gating begin to outperform scaffolding alone?",
+    "Temporal stability: does the framework's advantage persist as base model capability improves?"
+  ],
+  "asymmetric_risks": [
+    "If gating circularity is fundamental (not resolvable by metadata-based detection), the most novel component of the framework is unreliable",
+    "If base model capability improvements eliminate reasoning-state loss, the entire framework becomes unnecessary"
+  ],
+  "contradiction_memory": [],
+  "transition_log": [
+    {
+      "round": 1,
+      "object": "field_advancing_question",
+      "transition": "reframed",
+      "reason": "Scrutiny's surviving question collapsed two distinct mechanisms into one; reframe separates state representation from meta-cognitive gating",
+      "trigger": "escalator"
+    },
+    {
+      "round": 1,
+      "object": "best_live_counterposition",
+      "transition": "established",
+      "reason": "Scaffolding Hypothesis identified as strongest competitor with prior evidence base",
+      "trigger": "alternative_builder"
+    }
+  ],
+  "best_hybrid_model": "Adversarial scaffolding as the base (well-established), with typed epistemic state added for tasks requiring > 5 reasoning steps, and lightweight heuristic-based gating (fire on bottleneck repetition) replacing LLM-based meta-cognitive gating to avoid circularity",
+  "empirical_evidence_status": {
+    "direct_measurements": "None -- zero controlled experiments on any component",
+    "proxies": "Anecdotal worked examples from framework designer",
+    "model_inversions": "None",
+    "interpretation_load": "Very high -- all claims are theoretical/architectural, not empirically grounded"
+  },
+  "dependency_adjusted_support": "Near zero -- all evidence traces back to the framework designer's worked examples, which may demonstrate the designer rather than the framework",
+  "convergence_status": {
+    "state": "converged",
+    "reason": "Evidence-driven convergence on the decomposition and experimental design; convergence on the decisive bottleneck (no empirical evidence) is stable across scrutiny and crystallization passes"
+  },
+  "field_advancing_question": "Does structured reasoning state with typed epistemic objects, combined with meta-cognitive gating, produce measurably better multi-step LLM reasoning than adversarial scaffolding alone -- and if so, which component carries the load and at what complexity threshold?",
+  "update_rule": "If A is within 0.5 SD of B, abandon the adaptive-hardening claim. If B is within 0.5 SD of D, typed state adds nothing beyond multi-agent structure. If D is within 0.5 SD of C, multi-agent structure adds nothing beyond the single-agent baseline. If circularity test shows Escalator fails more than 50% on known cases, replace it with heuristic gating.",
+  "escalator_history": [
+    {
+      "mode": "REFRAME",
+      "question": "The scrutiny preserved 'formalization timing' as the surviving object. But this collapses two distinct mechanisms (state representation + gating) into one scheduling question. The real question is about component attribution in a composite system.",
+      "round": 1
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "agents_run": ["escalator", "alternative_builder", "builder", "falsifier", "synthesizer"],
+      "mode": "REFRAME -> EXPLORE -> STEELMAN -> FALSIFY -> SYNTHESIZE",
+      "key_moves": [
+        "Reframed from formalization-timing to component-attribution question",
+        "Identified four competing hypotheses with distinct survival conditions",
+        "Steelmanned scaffolding hypothesis as strongest competitor",
+        "Designed minimal 4-condition and full 2x2x2 experiments",
+        "Established update rule with precise thresholds"
+      ]
+    }
+  ]
+}

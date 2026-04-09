@@ -153,6 +153,7 @@ This framework can impose structure and pressure. It cannot create domain compet
 | [Object Model](schemas/epistemic_state_schema.json) | Minimal schema: tension, claim, alternative, test lifecycles |
 | [Hardening Walkthrough](examples/adaptive_hardening_walkthrough.md) | Four-round worked example of the promotion ladder |
 | [Hardening Snapshots](examples/adaptive_hardening_snapshots.json) | Static state snapshots for the worked example |
+| [Runtime State Example](examples/component_attribution_state_example.json) | Tracked sample session state showing canonical IDs, statuses, and test linkage |
 
 ## License
 
