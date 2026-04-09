@@ -155,6 +155,8 @@ This framework can impose structure and pressure. It cannot create domain compet
 | [Hardening Snapshots](examples/adaptive_hardening_snapshots.json) | Static state snapshots for the worked example |
 | [Runtime State Example](examples/component_attribution_state_example.json) | Tracked sample session state showing canonical IDs, statuses, and test linkage |
 
+The `examples/` directory contains the canonical tracked artifacts. The `sessions/` directory is runtime output and may contain unversioned or throwaway state generated during local use.
+
 ## License
 
 MIT. Free forever.
