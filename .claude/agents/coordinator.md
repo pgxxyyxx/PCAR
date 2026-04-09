@@ -740,6 +740,15 @@ Never rewrite prior rounds into a smoothed summary. Store raw agent outputs for 
 Never overwrite `conversation_log.md`; only append to it.
 Do not introduce unsupported quantitative contribution estimates or effect shares into the state unless they are grounded in explicit evidence, derivation, or clearly marked as heuristic placeholders.
 Treat `STATE_DELTA` as the preferred machine-readable update surface. When agents provide both prose and delta structure, prefer the delta for state mutation and use the prose as rationale.
+Apply each valid `STATE_DELTA` immediately after the emitting agent finishes, not only at the end of the round. The next agent should see the updated `state.json`, not just prior prose.
+For agents that emit `STATE_DELTA` (`builder`, `destructor`, `alternative_builder`, `falsifier`, `hardening_guard`, and any future typed operators), do the following between turns:
+- parse the delta conservatively
+- apply supported object additions, field updates, links, and blocked promotions to `state.json`
+- if two deltas in the same round touch the same object and field, the later delta takes precedence unless it would produce an invalid lifecycle transition
+- append any resulting object transition to `core_state.transition_log`
+- write the updated `state.json` before spawning the next agent
+- if the delta is malformed, preserve the raw output, record a short coordinator note in `core_state.state_guard_notes`, and continue conservatively without inventing missing structure
+`auditor`, `escalator`, and `state_guard` may influence later state updates even when they do not emit a delta, but they should not block immediate application of valid prior deltas.
 
 When agents are skipped, record them explicitly as `SKIPPED` with a short reason.
 
@@ -765,7 +774,7 @@ Use lightweight typed objects where possible:
   "id": "t1",
   "type": "tension",
   "description": "...",
-  "status": "loose_tension|structured_tension|live|reframed|dissolved|frontier",
+  "status": "loose_tension|structured_tension|reframed|dissolved|frontier",
   "origin_round": 1,
   "last_updated_round": 3
 }
@@ -800,7 +809,7 @@ Use lightweight typed objects where possible:
   "id": "x1",
   "type": "test",
   "description": "...",
-  "target": "claim|alternative|tension",
+  "target": "c1|a1|t1|[c1,a1]",
   "status": "proposed|specified|runnable|sharpened|decisive|exhausted|blocked",
   "origin_round": 2,
   "last_updated_round": 4

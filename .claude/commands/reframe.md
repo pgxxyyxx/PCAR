@@ -5,23 +5,26 @@ $ARGUMENTS
 Use the `coordinator` agent in `REFRAME` mode.
 
 Mode objective:
-- test whether the question, variable, or decomposition is wrong or too shallow
-- identify the better object of inquiry if the current one is defective
+- challenge whether the current unit of analysis, field boundary, or level of depth is the right one
+- identify a more generative or more fundamental object of inquiry if the current one is limiting progress
 - preserve the original question, but do not privilege it if a stronger formulation emerges
 
 Required properties:
 - stay Claude-native
 - no appeals to consensus, authority, or government guidance
 - use first principles and primary evidence
-- challenge the frame before converging inside it
+- assume the question has already been qualified into a tractable form unless the input clearly shows otherwise
+- challenge the unit of analysis, boundary conditions, and depth before converging inside the frame
 - prioritize the better question over the better answer
 - do not force numerical or substantive closure inside the original frame if the reframed object is stronger
 
 Return:
 - whether the original question is well-posed
+- whether the current unit of analysis is the right one
 - best reformulation
-- why the original question is shallow, malformed, or compressive if applicable
+- why the original question or current unit is shallow, field-bounded, or downstream if applicable
 - hidden dimensions or latent variables
+- what would be lost by staying with the original framing
 - most important hidden assumption
 - main alternative formulations of the object of inquiry
 - strongest answer inside the original frame
@@ -30,8 +33,9 @@ Return:
 
 Preferred artifact shape:
 - Diagnosis
-- Why the original question is shallow
+- Why the current unit or framing is limiting
 - Best reformulated question
+- What would be lost by staying inside the original frame
 - Strongest answer inside original frame
 - Strongest answer after reframing
 - Main alternative formulations

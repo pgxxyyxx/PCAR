@@ -6,7 +6,7 @@ Most AI reasoning does not fail by producing nonsense. It fails by producing som
 
 **Multi-Agent Progressive Crystallization (MAPC) is a state-first reasoning scaffold for Claude Code.** It turns Claude Code into something closer to an adversarial research team: a builder who steelmans the strongest position, a destructor who attacks the weakest assumption, an auditor who checks both sides for circular reasoning, a falsifier who demands testable predictions, an escalator who refuses to let the analysis settle at the wrong level, and a synthesizer who preserves what survives without smoothing away the tensions.
 
-Seven commands. Eleven agents. All slash commands, all Markdown, all MIT licensed.
+Eight commands. Twelve agents. All slash commands, all Markdown, all MIT licensed.
 
 **What this is for:**
 - **Researchers and analysts** who need to know what actually survives scrutiny, not just what sounds right
@@ -91,10 +91,11 @@ The core idea: **the transcript is archival context; the state is the primary ob
 
 | Command | What it does |
 |---------|-------------|
+| `/diagnose` | Question qualification. Detects malformed, compressed, policy-loaded, or mixed-unit questions and outputs the minimum repaired question set needed before deeper scrutiny. |
 | `/extract` | Paper ingestion. Converts an uploaded paper into analyst-grade structured takeaways: what was measured, what was claimed, where the gap is. Feeds into downstream scrutiny or exploration. |
 | `/lit-review` | Multi-paper ingestion. Builds a corpus-level evidence map across attached papers: agreements, disagreements, repeated assumptions, method limits, and priority gaps. |
 | `/scrutinize` | Attack the leading hypotheses. Find where evidence is circular, overclaimed, or not independent. Preserve only what survives the strongest available attacks. |
-| `/reframe` | Diagnose whether the question itself is malformed. Surface hidden dimensions, wrong abstraction levels, or compressed sub-questions. Output is a better question, not an answer. |
+| `/reframe` | Challenge whether the current unit of analysis, field boundary, or abstraction level is the right one. Output is a more generative question, not a repaired version of the same one. |
 | `/explore` | Map the space of serious live alternatives. Clarify what would have to be true for each to survive. Rank the measurements that would most efficiently move the epistemic state. |
 | `/escalate` | Frame-breaker. Forces the next first-principles question when the analysis is converging too smoothly at the wrong level. |
 | `/crystallize` | The orchestrator. Decides when to scrutinize, reframe, or explore. The productive default for research-forward tasks: scrutinize first (clear fake certainty), then reframe (replace the question), then explore (map the possibility space). |
@@ -115,8 +116,8 @@ The core idea: **the transcript is archival context; the state is the primary ob
 .claude/commands/     User-facing Claude Code slash commands
 .claude/agents/       Agent prompts (builder, destructor, auditor,
                       falsifier, escalator, synthesizer, coordinator,
-                      alternative_builder, extractor, hardening_guard,
-                      state_guard)
+                      alternative_builder, extractor, diagnostician,
+                      hardening_guard, state_guard)
 papers/               Working paper on the framework
 schemas/              Minimal object model and lifecycle reference
 examples/             Worked example of the hardening lifecycle
