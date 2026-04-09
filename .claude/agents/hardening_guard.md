@@ -27,7 +27,7 @@ TARGET_OBJECT:
 [Stable object id]
 
 CURRENT_STATUS:
-[loose_fragment | loose_tension | structured_tension | candidate_claim | crystallized_claim]
+[loose_tension | structured_tension | candidate_claim | crystallized_claim]
 
 REPRESENTATIONAL_DECISION:
 [stay_loose | promote_to_structured_tension | promote_to_candidate_claim | stay_structured]

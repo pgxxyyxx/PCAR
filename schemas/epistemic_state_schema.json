@@ -1,21 +1,40 @@
 {
-  "description": "Minimal transitional schema for Multi-Agent Progressive Crystallization (MAPC) state. This documents the intended object model and lifecycle states while the runtime remains prompt-driven.",
+  "description": "Documentation-oriented reference schema for Multi-Agent Progressive Crystallization (MAPC) state. This file documents the canonical object model and lifecycle states described in the paper; it is not a validating JSON Schema.",
+  "note": "Canonical source: papers/progressive_crystallization.md Section 2.3.",
   "object_types": {
     "tension": {
       "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
-      "statuses": ["loose_tension", "structured_tension", "live", "reframed", "dissolved", "frontier"]
+      "recommended": ["depends_on_assumptions", "structural_response"],
+      "statuses": ["loose_tension", "structured_tension", "reframed", "dissolved", "frontier"],
+      "validation_notes": [
+        "A frontier tension is a valid terminal state without a linked test if it carries an explicit structural_response."
+      ]
     },
     "claim": {
       "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
-      "statuses": ["candidate_claim", "working", "crystallized_claim", "weakened", "rejected"]
+      "recommended": ["target", "depends_on_assumptions", "revival_condition", "hardening_rationale", "linked_test"],
+      "statuses": ["candidate_claim", "working", "crystallized_claim", "weakened", "rejected"],
+      "validation_notes": [
+        "A crystallized_claim is invalid unless it has both an explicit hardening_rationale and a linked_test."
+      ]
     },
     "alternative": {
       "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
+      "recommended": ["depends_on_assumptions", "revival_condition"],
       "statuses": ["live", "narrowed", "hybridized", "ruled_out_by_first_principles", "ruled_out_by_measurement"]
     },
     "test": {
-      "required": ["id", "type", "description", "status", "origin_round", "last_updated_round"],
-      "statuses": ["new", "proposed", "specified", "runnable", "sharpened", "decisive", "exhausted", "blocked"]
+      "required": ["id", "type", "description", "target", "status", "origin_round", "last_updated_round"],
+      "recommended": ["procedure", "update_rule"],
+      "statuses": ["proposed", "specified", "runnable", "sharpened", "decisive", "exhausted", "blocked"]
+    },
+    "assumption": {
+      "required": ["id", "type", "description", "status"],
+      "statuses": ["unexamined", "examined", "undermined"]
+    },
+    "dependency_link": {
+      "required": ["source", "relation", "target"],
+      "recommended_relations": ["depends_on", "supports", "attacks", "tests", "reinterprets", "shares_assumption_with"]
     }
   },
   "hardening_decision": {

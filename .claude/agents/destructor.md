@@ -62,7 +62,7 @@ or
 - update_objects:
   - id: [stable id]
     fields:
-      status: [weakened | preserved | split | escalated]
+      status: [weakened | loose_tension | structured_tension | candidate_claim]
       revival_condition: [what evidence would make the attacked object live again]
 or
   NONE
@@ -83,3 +83,8 @@ or
   NONE
 or
 NONE
+
+Rules:
+- Use the canonical lifecycle vocabulary from the paper when updating existing objects.
+- `weakened` applies to claims only.
+- For tensions, use `loose_tension` or `structured_tension` rather than ad hoc action labels.

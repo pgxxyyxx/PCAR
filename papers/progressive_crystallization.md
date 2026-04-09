@@ -135,13 +135,16 @@ The timing policy in Section 2 does not fully determine the remaining design cho
 
 The framework is pre-empirical. One minimal experiment can strongly constrain the core claim.
 
-**Three conditions:**
+**Four conditions:**
 
 | Condition | Description |
 |---|---|
 | **A** | Full framework: typed epistemic state with two-level adaptive hardening and multi-agent structure |
 | **B** | Structured state passing: agents exchange JSON state objects with a fixed schema (always-formal) and multi-agent structure |
 | **C** | Single agent: equivalent task instructions, chain-of-thought, no structured state |
+| **D** | Multi-agent structure without structured state: agents exchange prose summaries rather than typed state objects |
+
+The original three-condition framing confounded two axes in the B versus C comparison: structured state and multi-agent structure. Adding D isolates the state axis from the multi-agent axis.
 
 **Task construction.** We propose constructing 20 tasks from two domains with different evaluation structures. The first domain is scientific hypothesis evaluation: given conflicting evidence, identify what survives scrutiny and what does not. These tasks have ground-truth answers that can be sealed in advance by domain experts, because the question is what the evidence actually supports rather than what policy to adopt. The second domain is multi-constraint policy analysis: given competing objectives, identify the binding tradeoffs and the strongest considerations on each side. These tasks do not have single correct answers. Instead, they have expert-constructed answer keys specifying which constraints are binding, which alternatives must be named, and which tradeoffs are irreducible. The evaluation criterion for policy tasks is completeness and structural accuracy of the tradeoff map, not convergence on a single recommendation. Each task in both domains must satisfy three criteria: reasoning chain length of five or more steps, an answer structure that shallow analysis systematically misses, and non-recoverability by retrieval alone. Tasks are constructed by domain experts before any system runs, with answer keys sealed.
 
@@ -153,12 +156,13 @@ The framework is pre-empirical. One minimal experiment can strongly constrain th
 |---|---|
 | A outperforms B by more than 0.3 SD | Adaptive hardening has value beyond structured state. Core claim survives. |
 | A within 0.5 SD of B | Adaptive hardening adds nothing. The contribution reduces to "use structured state." Hardening policy is unnecessary. |
-| B within 0.5 SD of C | Structured state adds nothing. The problem diagnosis is wrong. |
+| B within 0.5 SD of D | Structured state adds nothing beyond multi-agent structure. |
+| D within 0.5 SD of C | Multi-agent structure adds nothing beyond the single-agent baseline. |
 | A within 0.5 SD of C | The entire architecture is epiphenomenal. Invest in better single-agent prompting. |
 
 **Secondary test, conditional on A outperforming B.** Compare the adaptive hardening trigger against always-formal, never-formal, fixed-interval, and disagreement-triggered hardening. If any fixed rule matches the adaptive trigger, the specific trigger mechanism is unnecessary even though hardening policy matters.
 
-These thresholds are provisional and require calibration from a pilot study. But the experimental structure is committed: if always-formal structured state matches adaptive crystallization, the hardening policy, which is the paper's actual contribution, is dead.
+These thresholds are provisional and require calibration from a pilot study. But the experimental structure is committed: if always-formal structured state matches adaptive crystallization, the hardening policy, which is the paper's actual contribution, is dead. Likewise, if typed state fails to beat prose-only multi-agent exchange, the value of explicit state representation is narrower than the original three-condition framing implied.
 
 ---
 

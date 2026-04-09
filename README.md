@@ -6,7 +6,7 @@ Most AI reasoning does not fail by producing nonsense. It fails by producing som
 
 **Multi-Agent Progressive Crystallization (MAPC) is a state-first reasoning scaffold for Claude Code.** It turns Claude Code into something closer to an adversarial research team: a builder who steelmans the strongest position, a destructor who attacks the weakest assumption, an auditor who checks both sides for circular reasoning, a falsifier who demands testable predictions, an escalator who refuses to let the analysis settle at the wrong level, and a synthesizer who preserves what survives without smoothing away the tensions.
 
-Seven commands. Ten agents. All slash commands, all Markdown, all MIT licensed.
+Seven commands. Eleven agents. All slash commands, all Markdown, all MIT licensed.
 
 **What this is for:**
 - **Researchers and analysts** who need to know what actually survives scrutiny, not just what sounds right
@@ -26,10 +26,13 @@ git clone https://github.com/pgxxyyxx/MAPC.git
 cd MAPC
 ```
 
-Open the directory in Claude Code. The commands and agents load automatically. No build step, no dependencies, no setup script.
+Open the directory in Claude Code. Claude Code is required; this repo is a prompt scaffold for that environment, not a standalone CLI.
+The commands and agents load automatically. No build step, no dependencies, no setup script.
 This repository is not a standalone application or CLI. It is a Claude Code prompt scaffold: the commands and agents become available inside Claude Code when the repository is opened there.
 
 ## See it work
+
+Illustrative example. The exact runtime artifact format in this repo uses archived markdown logs and structured state files rather than the bracketed inline transcript shown below.
 
 ```
 You:    /scrutinize Is the Hubble tension more likely to reflect
