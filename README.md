@@ -22,7 +22,7 @@ Eight commands. Twelve agents. All slash commands, all Markdown, all MIT license
 ## Install
 
 ```bash
-git clone https://github.com/pgxxyyxx/MAPC.git
+git clone https://github.com/pgratzke/MAPC.git
 cd MAPC
 ```
 
@@ -142,6 +142,8 @@ sessions/             Generated runtime output (gitignored)
 
 The current paper is [`papers/progressive_crystallization.md`](./papers/progressive_crystallization.md). It argues that the right unit of AI reasoning is not the conversational turn but the epistemic state object, and that the genuinely novel question is when loose tensions should harden into structured claims. The paper is pre-empirical and specifies the result that would kill its own claim.
 
+A companion workflow paper, [`papers/scientific_controversy_workflow.md`](./papers/scientific_controversy_workflow.md), defines the investigation layer above MAPC: question qualification, structure mapping, assumption inventory, evidence-independence audit, and research-agenda construction.
+
 ## Limits
 
 This framework can impose structure and pressure. It cannot create domain competence the underlying model does not have. If the model cannot recognize circular evidence, distinguish genuine tests from fake ones, or separate real constraints from rhetoric, the system will produce well-structured wrong answers.
@@ -151,6 +153,7 @@ This framework can impose structure and pressure. It cannot create domain compet
 | Doc | What it covers |
 |-----|---------------|
 | [Working Paper](papers/progressive_crystallization.md) | The conceptual argument: timing policy for formalization in LLM reasoning |
+| [Workflow Paper](papers/scientific_controversy_workflow.md) | The workflow layer for scientific controversy investigation above the reasoning engine |
 | [Object Model](schemas/epistemic_state_schema.json) | Minimal schema: tension, claim, alternative, test lifecycles |
 | [Hardening Walkthrough](examples/adaptive_hardening_walkthrough.md) | Four-round worked example of the promotion ladder |
 | [Hardening Snapshots](examples/adaptive_hardening_snapshots.json) | Static state snapshots for the worked example |
